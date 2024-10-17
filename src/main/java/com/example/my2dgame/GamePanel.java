@@ -19,6 +19,9 @@ public class GamePanel extends JPanel implements Runnable{
     int FPS = 60;
     final double drawInterval = 1000000000 / FPS; // 0.016666 seconds
 
+    // FPS counter
+    int currentFPS = 0;
+
 
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
@@ -42,7 +45,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
 
-    //#region Sleep method
+    //#region Sleep method -- not prefer
 //    @Override
 //    public void run() {
 //        double nextDrawTime = System.nanoTime() + drawInterval;
@@ -99,7 +102,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
 
             if (timer >= 1000000000) {
-                System.out.println("FPS: " + drawCount);
+                currentFPS = drawCount; // Update FPS to be displayed
                 drawCount = 0;
                 timer = 0;
             }
@@ -132,6 +135,12 @@ public class GamePanel extends JPanel implements Runnable{
 
         g2.setColor(Color.WHITE);
         g2.fillRect(playerX, playerY, tileSize, tileSize);
+
+        // Draw the FPS in the top right corner
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("Arial", Font.PLAIN, 20));
+        g2.drawString("FPS: " + currentFPS, screenWidth - 100, 30); // Position it in the top right corner
+
         g2.dispose();
     }
 }

@@ -1,4 +1,6 @@
-package com.example.my2dgame;
+package com.example.my2dgame.main;
+
+import com.example.my2dgame.entity.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +11,7 @@ public class GamePanel extends JPanel implements Runnable{
     final int originalTileSize = 16; //16 * 16 tiles
     final int scale = 3;
 
-    final int tileSize = originalTileSize * scale; // 48 * 48 tile
+    public final int tileSize = originalTileSize * scale; // 48 * 48 tile
     final int maxScreenCol = 16;
     final int maxScreenRow = 12;
     final int screenWidth = tileSize * maxScreenCol; // 768 pixels
@@ -23,8 +25,10 @@ public class GamePanel extends JPanel implements Runnable{
     int currentFPS = 0;
 
 
-    KeyHandler keyHandler = new KeyHandler();
+    KeyHandler keyH = new KeyHandler();
     Thread gameThread;
+
+    Player player = new Player(this, keyH);
 
     // Set player's default position
     int playerX = 100;
@@ -35,7 +39,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
-        this.addKeyListener(keyHandler);
+        this.addKeyListener(keyH);
         this.setFocusable(true);
     }
 
@@ -111,21 +115,7 @@ public class GamePanel extends JPanel implements Runnable{
     //#endregion
 
     public void update(){
-        if (keyHandler.upPressed) {
-            playerY -= playerSpeed;
-        }
-
-        else if (keyHandler.downPressed) {
-            playerY += playerSpeed;
-        }
-
-        else if (keyHandler.leftPressed) {
-            playerX -= playerSpeed;
-        }
-
-        else if (keyHandler.rightPressed) {
-            playerX += playerSpeed;
-        }
+        player.update();
     }
 
     public void paintComponent(Graphics g){
@@ -133,13 +123,13 @@ public class GamePanel extends JPanel implements Runnable{
 
         Graphics2D g2 = (Graphics2D) g;
 
-        g2.setColor(Color.WHITE);
-        g2.fillRect(playerX, playerY, tileSize, tileSize);
+        player.draw(g2);
 
-        // Draw the FPS in the top right corner
+        //#region Draw the FPS in the top right corner
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.PLAIN, 20));
         g2.drawString("FPS: " + currentFPS, screenWidth - 100, 30); // Position it in the top right corner
+        //#endregion
 
         g2.dispose();
     }

@@ -1,4 +1,4 @@
-package com.example.my2dgame;
+package com.example.my2dgame.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

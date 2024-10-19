@@ -32,6 +32,8 @@ public class GamePanel extends JPanel implements Runnable{
     // FPS counter
     int currentFPS = 0;
 
+    public CollisionChecker cChecker = new CollisionChecker(this);
+
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;

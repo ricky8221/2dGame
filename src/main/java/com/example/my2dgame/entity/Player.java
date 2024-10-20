@@ -15,7 +15,10 @@ public class Player extends Entity{
 
     public final int screenX;
     public final int screenY;
-    private int hasKey = 0;
+    public int hasKey = 0;
+    int standCounter;
+    boolean moving = false;
+    int pixelCounter = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -24,7 +27,7 @@ public class Player extends Entity{
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
-        solidArea = new Rectangle(8, 16, 32, 32);
+        solidArea = new Rectangle(1, 1, 46, 46);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         setDefaultValues();
@@ -66,26 +69,35 @@ public class Player extends Entity{
 
     public void update() {
 
-        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-            if (keyH.upPressed) {
-                direction = "up";
-            }
-            else if (keyH.downPressed) {
-                direction = "down";
-            }
-            else if (keyH.leftPressed) {
-                direction = "left";
-            }
-            else if (keyH.rightPressed) {
-                direction = "right";
-            }
+        if (!moving) {
+            if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+                if (keyH.upPressed) {
+                    direction = "up";
+                } else if (keyH.downPressed) {
+                    direction = "down";
+                } else if (keyH.leftPressed) {
+                    direction = "left";
+                } else if (keyH.rightPressed) {
+                    direction = "right";
+                }
 
-            // Check tile collision
-            collisionOn = false;
-            gp.cChecker.checkTile(this);
-            int objIdx = gp.cChecker.checkObject(this, true);
-            pickupObject(objIdx);
+                moving = true;
 
+                // Check tile collision
+                collisionOn = false;
+                gp.cChecker.checkTile(this);
+                int objIdx = gp.cChecker.checkObject(this, true);
+                pickupObject(objIdx);
+            } else {
+                standCounter++;
+                if (standCounter == 20) {
+                    spriteNum = 1;
+                    standCounter = 0;
+                }
+            }
+        }
+
+        if (moving) {
             // If collision is false, player can move
             if (!collisionOn) {
                 switch (direction) {
@@ -103,6 +115,12 @@ public class Player extends Entity{
 
                 spriteCounter = 0;
             }
+
+            pixelCounter += speed;
+            if (pixelCounter == 48) {
+                moving = false;
+                pixelCounter = 0;
+            }
         }
 
     }
@@ -116,18 +134,28 @@ public class Player extends Entity{
                     gp.playSE(1);
                     hasKey ++;
                     gp.obj[objIdx] = null;
+                    gp.ui.showMessage("You got a key");
                     break;
                 case "Door":
                     if (hasKey > 0) {
                         gp.playSE(3);
                         hasKey --;
                         gp.obj[objIdx] = null;
+                        gp.ui.showMessage("You open the door!");
+                    } else {
+                        gp.ui.showMessage("You need a key");
                     }
                     break;
                 case "Boots":
                     gp.playSE(2);
                     speed += 2;
                     gp.obj[objIdx] = null;
+                    gp.ui.showMessage("Speed up");
+                    break;
+                case "Chest":
+                    gp.ui.gameFinished = true;
+                    gp.stopMusic();
+                    gp.playSE(4);
                     break;
             }
         }
@@ -172,5 +200,10 @@ public class Player extends Entity{
         };
 
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+        //#region Dev purpose, drawing the collision vox
+        g2.setColor(Color.RED);
+        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        //#endregion
     }
 }

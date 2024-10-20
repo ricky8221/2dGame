@@ -1,5 +1,6 @@
 package com.example.my2dgame.main;
 
+import com.example.my2dgame.object.ObjChest;
 import com.example.my2dgame.object.ObjDoor;
 import com.example.my2dgame.object.ObjKey;
 
@@ -47,7 +48,7 @@ public class AssertSetter {
         //#endregion
 
         //#region Chest 1
-        gp.obj[6] = new ObjDoor();
+        gp.obj[6] = new ObjChest();
         gp.obj[6].worldX = 10 * gp.tileSize;
         gp.obj[6].worldY = 7 * gp.tileSize;
         //#endregion

@@ -6,11 +6,13 @@ import java.util.Objects;
 
 public class ObjDoor extends SuperObject{
     public ObjDoor() {
-        name = "door";
+        name = "Door";
         try {
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/objects/door.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        collision = true;
     }
 }

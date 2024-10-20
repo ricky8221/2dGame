@@ -137,15 +137,16 @@ public class GamePanel extends JPanel implements Runnable{
         // Tile
         tileM.draw(g2);
 
-        // Player
-        player.draw(g2);
-
         // Objects
         for (int i = 0; i < obj.length; i++) {
             if (obj[i] != null) {
                 obj[i].draw(g2, this);
             }
         }
+
+        // Player
+        player.draw(g2);
+
 
         //#region Draw the FPS in the top right corner
         g2.setColor(Color.WHITE);

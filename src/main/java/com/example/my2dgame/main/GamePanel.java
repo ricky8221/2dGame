@@ -22,9 +22,6 @@ public class GamePanel extends JPanel implements Runnable{
     // World setting
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
-    public final int worldWidth = tileSize * maxWorldCol;
-    public final int worldHeight = tileSize * maxWorldRow;
-
 
     // FPS
     int FPS = 60;
@@ -33,14 +30,17 @@ public class GamePanel extends JPanel implements Runnable{
     // FPS counter
     int currentFPS = 0;
 
-    public CollisionChecker cChecker = new CollisionChecker(this);
     KeyHandler keyH = new KeyHandler();
-    public SuperObject[] obj = new SuperObject[10];
+    TileManager tileM = new TileManager(this);
+    Sound sound = new Sound();
+    public CollisionChecker cChecker = new CollisionChecker(this);
     public AssertSetter aSetter = new AssertSetter(this);
     Thread gameThread;
 
+    // Entity of object
     public Player player = new Player(this, keyH);
-    TileManager tileM = new TileManager(this);
+    public SuperObject[] obj = new SuperObject[10];
+
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -57,41 +57,10 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame() {
         aSetter.setObject();
+
+        playMusic(0);
     }
 
-
-    //#region Sleep method -- not prefer
-//    @Override
-//    public void run() {
-//        double nextDrawTime = System.nanoTime() + drawInterval;
-//
-//        while (gameThread != null) {
-//
-//            // 1.Update information such as character position
-//            update();
-//
-//            // 2. Draw the screen with the updated information
-//            repaint();
-//
-//
-//            try {
-//                double remainingTime = nextDrawTime - System.nanoTime();
-//                remainingTime = remainingTime / 100000;
-//
-//                if (remainingTime < 0) {
-//                    remainingTime = 0;
-//                }
-//
-//                Thread.sleep((long)remainingTime);
-//
-//                nextDrawTime += drawInterval;
-//
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-    //#endregion
 
     //#region Delta method
     @Override
@@ -155,5 +124,20 @@ public class GamePanel extends JPanel implements Runnable{
         //#endregion
 
         g2.dispose();
+    }
+
+    public void playMusic(int i) {
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+
+    public void stopMusic() {
+        sound.stop();
+    }
+
+    public void playSE(int i) {
+        sound.setFile(i);
+        sound.play();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.my2dgame.main;
 
 import com.example.my2dgame.entity.Player;
+import com.example.my2dgame.object.SuperObject;
 import com.example.my2dgame.tile.TileManager;
 
 import javax.swing.*;
@@ -33,9 +34,9 @@ public class GamePanel extends JPanel implements Runnable{
     int currentFPS = 0;
 
     public CollisionChecker cChecker = new CollisionChecker(this);
-
-
     KeyHandler keyH = new KeyHandler();
+    public SuperObject[] obj = new SuperObject[10];
+    public AssertSetter aSetter = new AssertSetter(this);
     Thread gameThread;
 
     public Player player = new Player(this, keyH);
@@ -52,6 +53,10 @@ public class GamePanel extends JPanel implements Runnable{
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void setupGame() {
+        aSetter.setObject();
     }
 
 
@@ -129,8 +134,18 @@ public class GamePanel extends JPanel implements Runnable{
 
         Graphics2D g2 = (Graphics2D) g;
 
+        // Tile
         tileM.draw(g2);
+
+        // Player
         player.draw(g2);
+
+        // Objects
+        for (int i = 0; i < obj.length; i++) {
+            if (obj[i] != null) {
+                obj[i].draw(g2, this);
+            }
+        }
 
         //#region Draw the FPS in the top right corner
         g2.setColor(Color.WHITE);

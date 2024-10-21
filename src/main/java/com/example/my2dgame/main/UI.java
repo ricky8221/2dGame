@@ -21,7 +21,7 @@ public class UI {
         this.gp = gp;
         arial40 = new Font("Arial", Font.PLAIN, 40);
         arial80Bold = new Font("Arial", Font.BOLD, 80);
-        ObjKey objKey = new ObjKey();
+        ObjKey objKey = new ObjKey(gp);
         keyImage = objKey.image;
     }
 

@@ -2,6 +2,7 @@ package com.example.my2dgame.entity;
 
 import com.example.my2dgame.main.GamePanel;
 import com.example.my2dgame.main.KeyHandler;
+import com.example.my2dgame.main.Utils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -42,18 +43,29 @@ public class Player extends Entity{
     }
 
     public void getPlayerImage() {
+        up1 = setUp("boy_up_1");
+        up2 = setUp("boy_up_2");
+        down1 = setUp("boy_down_1");
+        down2 = setUp("boy_down_2");
+        left1 = setUp("boy_left_1");
+        left2 = setUp("boy_left_2");
+        right1 = setUp("boy_right_1");
+        right2 = setUp("boy_right_2");
+
+    }
+
+    public BufferedImage setUp(String imageName) {
+        Utils utils = new Utils();
+        BufferedImage image = null;
+
         try {
-            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_up_1.png")));
-            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_up_2.png")));
-            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_down_1.png")));
-            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_down_2.png")));
-            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_left_1.png")));
-            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_left_2.png")));
-            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_right_1.png")));
-            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_right_2.png")));
-        } catch(IOException e) {
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/" + imageName + ".png")));
+            image = utils.scaleImage(image, gp.tileSize, gp.tileSize);
+        }catch (IOException e) {
             e.printStackTrace();
         }
+
+        return image;
     }
 
     public BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
@@ -199,7 +211,7 @@ public class Player extends Entity{
                     break;
         };
 
-        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY,null);
 
         //#region Dev purpose, drawing the collision vox
         g2.setColor(Color.RED);

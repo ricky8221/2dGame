@@ -114,10 +114,14 @@ public class GamePanel extends JPanel implements Runnable{
                 obj[i].draw(g2, this);
             }
         }
+        //Debug
+        long drawStart = 0;
+        drawStart = System.nanoTime();
 
         // Player
         player.draw(g2);
 
+        //UI
         ui.draw(g2);
 
 
@@ -125,6 +129,12 @@ public class GamePanel extends JPanel implements Runnable{
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.PLAIN, 20));
         g2.drawString("FPS: " + currentFPS, screenWidth - 100, 30); // Position it in the top right corner
+        long drawEnd = 0;
+        if (keyH.checkDrawTime) {
+            drawEnd = System.nanoTime();
+            long drawTime = (drawEnd - drawStart);
+            g2.drawString("Draw time: " + drawTime, 10, 400);
+        }
         //#endregion
 
         g2.dispose();

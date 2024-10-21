@@ -1,6 +1,7 @@
 package com.example.my2dgame.object;
 
 import com.example.my2dgame.main.GamePanel;
+import com.example.my2dgame.main.Utils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,6 +14,7 @@ public class SuperObject {
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
     public int solidAreaDefaultX = 0;
     public int solidAreaDefaultY = 0;
+    Utils utils = new Utils();
 
     public void draw(Graphics2D g2, GamePanel gp) {
         int screenX = worldX - gp.player.worldX + gp.player.screenX;

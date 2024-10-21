@@ -1,9 +1,9 @@
-package com.example.my2dgame.main;
+package main;
 
-import com.example.my2dgame.object.ObjBoots;
-import com.example.my2dgame.object.ObjChest;
-import com.example.my2dgame.object.ObjDoor;
-import com.example.my2dgame.object.ObjKey;
+import object.ObjBoots;
+import object.ObjChest;
+import object.ObjDoor;
+import object.ObjKey;
 
 public class AssertSetter {
     GamePanel gp;

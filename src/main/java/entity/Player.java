@@ -1,8 +1,8 @@
-package com.example.my2dgame.entity;
+package entity;
 
-import com.example.my2dgame.main.GamePanel;
-import com.example.my2dgame.main.KeyHandler;
-import com.example.my2dgame.main.Utils;
+import main.GamePanel;
+import main.KeyHandler;
+import main.Utils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

@@ -1,7 +1,7 @@
-package com.example.my2dgame.object;
+package object;
 
-import com.example.my2dgame.main.GamePanel;
-import com.example.my2dgame.main.Utils;
+import main.GamePanel;
+import main.Utils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

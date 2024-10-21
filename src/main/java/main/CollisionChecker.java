@@ -1,6 +1,6 @@
-package com.example.my2dgame.main;
+package main;
 
-import com.example.my2dgame.entity.Entity;
+import entity.Entity;
 
 public class CollisionChecker {
     GamePanel gp;

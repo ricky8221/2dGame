@@ -1,4 +1,4 @@
-package com.example.my2dgame.entity;
+package entity;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

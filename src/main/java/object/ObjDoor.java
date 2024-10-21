@@ -1,6 +1,6 @@
-package com.example.my2dgame.object;
+package object;
 
-import com.example.my2dgame.main.GamePanel;
+import main.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;

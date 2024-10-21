@@ -1,11 +1,10 @@
-package com.example.my2dgame.tile;
+package tile;
 
-import com.example.my2dgame.main.GamePanel;
-import com.example.my2dgame.main.Utils;
+import main.GamePanel;
+import main.Utils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

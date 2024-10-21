@@ -1,8 +1,8 @@
-package com.example.my2dgame.main;
+package main;
 
-import com.example.my2dgame.entity.Player;
-import com.example.my2dgame.object.SuperObject;
-import com.example.my2dgame.tile.TileManager;
+import entity.Player;
+import object.SuperObject;
+import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;

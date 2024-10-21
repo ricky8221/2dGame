@@ -1,4 +1,4 @@
-package com.example.my2dgame.main;
+package main;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

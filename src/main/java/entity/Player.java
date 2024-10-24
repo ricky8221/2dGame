@@ -11,18 +11,17 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Player extends Entity{
-    GamePanel gp;
     KeyHandler keyH;
 
     public final int screenX;
     public final int screenY;
-//    public int hasKey = 0;
     int standCounter;
     boolean moving = false;
     int pixelCounter = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
-        this.gp = gp;
+        super(gp);
+
         this.keyH = keyH;
 
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
@@ -43,39 +42,14 @@ public class Player extends Entity{
     }
 
     public void getPlayerImage() {
-        up1 = setUp("boy_up_1");
-        up2 = setUp("boy_up_2");
-        down1 = setUp("boy_down_1");
-        down2 = setUp("boy_down_2");
-        left1 = setUp("boy_left_1");
-        left2 = setUp("boy_left_2");
-        right1 = setUp("boy_right_1");
-        right2 = setUp("boy_right_2");
-    }
-
-    public BufferedImage setUp(String imageName) {
-        Utils utils = new Utils();
-        BufferedImage image = null;
-
-        try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/" + imageName + ".png")));
-            image = utils.scaleImage(image, gp.tileSize, gp.tileSize);
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return image;
-    }
-
-    public BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
-        Image scaledImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
-        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
-
-        Graphics2D g2d = resizedImage.createGraphics();
-        g2d.drawImage(scaledImage, 0, 0, null);
-        g2d.dispose();
-
-        return resizedImage;
+        up1 = setUp("/player/boy_up_1");
+        up2 = setUp("/player/boy_up_2");
+        down1 = setUp("/player/boy_down_1");
+        down2 = setUp("/player/boy_down_2");
+        left1 = setUp("/player/boy_left_1");
+        left2 = setUp("/player/boy_left_2");
+        right1 = setUp("/player/boy_right_1");
+        right2 = setUp("/player/boy_right_2");
     }
 
     public void update() {
@@ -99,6 +73,10 @@ public class Player extends Entity{
                 gp.cChecker.checkTile(this);
                 int objIdx = gp.cChecker.checkObject(this, true);
                 pickupObject(objIdx);
+
+                // Check the NPC collision
+                int npcIdx = gp.cChecker.checkEntity(this, gp.npc);
+                interactNpc(npcIdx);
             } else {
                 standCounter++;
                 if (standCounter == 20) {
@@ -140,6 +118,10 @@ public class Player extends Entity{
         if (objIdx != 999) {
 
         }
+    }
+
+    public void interactNpc(int i) {
+        System.out.println("You are hitting NPC");
     }
 
     public void draw(Graphics g2) {

@@ -48,7 +48,7 @@ public class Entity {
     public void setAction() {}
 
     public void update() {
-            setAction();
+        setAction();
 
         collisionOn = false;
         gp.cChecker.checkTile((this));

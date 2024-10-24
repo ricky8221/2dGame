@@ -6,6 +6,7 @@ import java.util.Random;
 
 
 public class NpcOldMan extends Entity{
+    int pixelCounter = 0;
     public NpcOldMan(GamePanel gp) {
         super(gp);
 
@@ -28,8 +29,9 @@ public class NpcOldMan extends Entity{
 
     public void setAction() {
         actionLockCounter++;
+        pixelCounter++;
 
-        if (actionLockCounter == 120) {
+        if (actionLockCounter % 96 == 0) {
             Random random = new Random();
 
             int i = random.nextInt(100) + 1; // pick a random number from 1 to 100

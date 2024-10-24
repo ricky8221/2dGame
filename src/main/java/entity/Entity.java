@@ -25,6 +25,8 @@ public class Entity {
     public int solidAreaDefaultY;
     public boolean collisionOn = false;
     public int actionLockCounter;
+    int pixelCounter = 0;
+
 
 
     public Entity(GamePanel gp) {
@@ -48,7 +50,10 @@ public class Entity {
     public void setAction() {}
 
     public void update() {
-        setAction();
+        pixelCounter++;
+        if (pixelCounter % 48 == 0) {
+            setAction();
+        }
 
         collisionOn = false;
         gp.cChecker.checkTile((this));
@@ -87,7 +92,6 @@ public class Entity {
         ) {
             switch (direction) {
                 case "up":
-
                     if (spriteNum == 1) {
                         image = up1;
                     }

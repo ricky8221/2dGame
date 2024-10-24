@@ -51,7 +51,6 @@ public class Player extends Entity{
         left2 = setUp("boy_left_2");
         right1 = setUp("boy_right_1");
         right2 = setUp("boy_right_2");
-
     }
 
     public BufferedImage setUp(String imageName) {
@@ -148,6 +147,7 @@ public class Player extends Entity{
 
             switch (direction) {
                 case "up":
+
                     if (spriteNum == 1) {
                         image = up1;
                     }

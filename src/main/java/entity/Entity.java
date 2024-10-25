@@ -26,6 +26,8 @@ public class Entity {
     public boolean collisionOn = false;
     public int actionLockCounter;
     int pixelCounter = 0;
+    String[] dialogues = new String[20];
+    int dialogueIndex = 0;
 
 
 
@@ -48,6 +50,28 @@ public class Entity {
     }
 
     public void setAction() {}
+    public void speak() {
+        if (dialogues[dialogueIndex] == null) {
+            dialogueIndex = 0;
+        }
+        gp.ui.currentDialogue = dialogues[dialogueIndex];
+        dialogueIndex ++;
+
+        switch (gp.player.direction) {
+            case "up":
+                direction = "down";
+                break;
+            case "down":
+                direction = "up";
+                break;
+            case "left":
+                direction = "right";
+                break;
+            case "right":
+                direction = "left";
+                break;
+        }
+    }
 
     public void update() {
         pixelCounter++;
@@ -60,22 +84,7 @@ public class Entity {
         gp.cChecker.checkObject(this, false);
         gp.cChecker.checkPlayer(this);
 
-        if (!collisionOn) {
-            switch (direction) {
-                case "up": worldY -= speed; break;
-                case "down": worldY += speed; break;
-                case "left": worldX -= speed; break;
-                case "right": worldX += speed; break;
-            }
-        }
-
-        spriteCounter++;
-        if (spriteCounter >= 12) {
-            if (spriteNum == 1) spriteNum = 2;
-            else if (spriteNum == 2) spriteNum = 1;
-
-            spriteCounter = 0;
-        }
+        moveEntity();
     }
 
     public void draw(Graphics2D g2) {
@@ -127,6 +136,26 @@ public class Entity {
 
 
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        }
+    }
+
+
+    public void moveEntity() {
+        if (!collisionOn) {
+            switch (direction) {
+                case "up": worldY -= speed; break;
+                case "down": worldY += speed; break;
+                case "left": worldX -= speed; break;
+                case "right": worldX += speed; break;
+            }
+        }
+
+        spriteCounter++;
+        if (spriteCounter >= 12) {
+            if (spriteNum == 1) spriteNum = 2;
+            else if (spriteNum == 2) spriteNum = 1;
+
+            spriteCounter = 0;
         }
     }
 }

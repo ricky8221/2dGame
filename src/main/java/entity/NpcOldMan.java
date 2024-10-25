@@ -14,6 +14,14 @@ public class NpcOldMan extends Entity{
         speed = 1;
 
         getImage();
+        setDialogue();
+    }
+
+    public void setDialogue() {
+        dialogues[0] = "Hello Ricky!";
+        dialogues[1] = "So you have come to this island to \nfind the treasure?";
+        dialogues[2] = "I used to be a great wizard but now... \nI'm a bit too old for taking an adventure";
+        dialogues[3] = "Well, good luck";
     }
 
     public void getImage() {
@@ -46,5 +54,7 @@ public class NpcOldMan extends Entity{
         }
     }
 
-
+    public void speak() {
+        super.speak();
+    }
 }

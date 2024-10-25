@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Player extends Entity{
-    KeyHandler keyH;
+    public KeyHandler keyH;
 
     public final int screenX;
     public final int screenY;
@@ -53,65 +53,35 @@ public class Player extends Entity{
     }
 
     public void update() {
+        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+            if (keyH.upPressed) {
+                direction = "up";
+            } else if (keyH.downPressed) {
+                direction = "down";
+            } else if (keyH.leftPressed) {
+                direction = "left";
+            } else if (keyH.rightPressed) {
+                direction = "right";
+            }
 
-        if (!moving) {
-            if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-                if (keyH.upPressed) {
-                    direction = "up";
-                } else if (keyH.downPressed) {
-                    direction = "down";
-                } else if (keyH.leftPressed) {
-                    direction = "left";
-                } else if (keyH.rightPressed) {
-                    direction = "right";
-                }
+            moveEntity();
 
-                moving = true;
+            // Check tile collision
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
+            int objIdx = gp.cChecker.checkObject(this, true);
+            pickupObject(objIdx);
 
-                // Check tile collision
-                collisionOn = false;
-                gp.cChecker.checkTile(this);
-                int objIdx = gp.cChecker.checkObject(this, true);
-                pickupObject(objIdx);
-
-                // Check the NPC collision
-                int npcIdx = gp.cChecker.checkEntity(this, gp.npc);
-                interactNpc(npcIdx);
-            } else {
-                standCounter++;
-                if (standCounter == 20) {
-                    spriteNum = 1;
-                    standCounter = 0;
-                }
+            // Check the NPC collision
+            int npcIdx = gp.cChecker.checkEntity(this, gp.npc);
+            interactNpc(npcIdx);
+        } else {
+            standCounter++;
+            if (standCounter == 20) {
+                spriteNum = 1;
+                standCounter = 0;
             }
         }
-
-        if (moving) {
-            // If collision is false, player can move
-            if (!collisionOn) {
-                switch (direction) {
-                    case "up": worldY -= speed; break;
-                    case "down": worldY += speed; break;
-                    case "left": worldX -= speed; break;
-                    case "right": worldX += speed; break;
-                }
-            }
-
-            spriteCounter++;
-            if (spriteCounter >= 12) {
-                if (spriteNum == 1) spriteNum = 2;
-                else if (spriteNum == 2) spriteNum = 1;
-
-                spriteCounter = 0;
-            }
-
-            pixelCounter += speed;
-            if (pixelCounter == 48) {
-                moving = false;
-                pixelCounter = 0;
-            }
-        }
-
     }
 
     public void pickupObject(int objIdx) {
@@ -121,7 +91,13 @@ public class Player extends Entity{
     }
 
     public void interactNpc(int i) {
-        System.out.println("You are hitting NPC");
+        if (i != 999) {
+            if (gp.keyH.enterPressed) {
+                gp.gameState = gp.dialogueState;
+                gp.npc[i].speak();
+            }
+        }
+        gp.keyH.enterPressed = false;
     }
 
     public void draw(Graphics g2) {
